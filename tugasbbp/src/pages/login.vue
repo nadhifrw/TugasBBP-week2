@@ -44,20 +44,23 @@
   };
   
   const onLogin = async () => {
-    const respond =  await axios.post('http://localhost:3000/login', {
-        username: username.value,
-        password: password.value
-    });
+    try {
+      const respond =  await axios.post('http://localhost:3000/login', {
+          username: username.value,
+          password: password.value
+      });
 
-    console.log(respond)
-
-
-    // if (isFormValid()) {
-    //   auth.login(username.value); // You may adjust this part according to your authentication logic
-    //   router.push("/");
-    // } else {
-    //   // Handle invalid login attempt, e.g., show an error message
-    //   alert("Please enter username and password");
-    // }
+      console.log(respond)
+      
+      if (respond.data.status === "success"){
+        auth.login(username.value);
+        router.push("/");
+      } else {
+        window.alert("Username atau password salah!")
+      }
+    } catch (error){
+      console.error("Error during login:", error);
+      window.alert("Terjadi kesalahan saat melakukan login");
+    }
   };
 </script>
